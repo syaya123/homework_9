@@ -1,7 +1,7 @@
 CONTACT_LIST = {}
 
 """
-Декоратор винятків
+Декоратор винятків.
 """
 def input_error(func):
     def miss_name(command):
@@ -12,7 +12,6 @@ def input_error(func):
         except (KeyError, IndexError):
             print("Give me name and phone please!")     
     return miss_name
-    
     
 """ 
 Функції обробники команд — handler, що відповідають
@@ -64,7 +63,6 @@ dict_command = {'hello': greeting,
 Частина, яка відповідає за розбір введених користувачем рядків, 
 виділення з рядка ключових слів та модифікаторів команд.
 """
-
 def parser_command(command: str)->str:
     for key, action in dict_command.items():
         if command.find(key) >= 0:
@@ -76,7 +74,6 @@ def parser_command(command: str)->str:
 Цикл запит-відповідь. Ця частина програми відповідає за отримання від користувача даних та 
 повернення користувачеві відповіді від функції-handlerа.
 """
-
 def main():
     while True:
         action = input("Please, input your command...") 
