@@ -8,9 +8,10 @@ def input_error(func):
         try:
             res = func(command)
             if res == None:
-                print('Enter user name')
+                return 'Enter user name. The first letter is capital, and the rest are small.'
+            return res
         except (KeyError, IndexError):
-            print("Give me name and phone please!")     
+            return 'Give your name and phone number, please!'   
     return miss_name
     
 """ 
@@ -18,35 +19,34 @@ def input_error(func):
 за безпосереднє виконання команд. 
 """
 def greeting(word):
-    print('How can I help you?')   
+    return 'How can I help you?'
 
 
 @input_error
 def add_contacts(contact):
     add_contact = contact.split(' ') 
     CONTACT_LIST.update({add_contact[1]: add_contact[2]})
-    return CONTACT_LIST
+    return f'You add name {add_contact[1]} and telephone number {add_contact[2]}'
 
 @input_error
 def change_contact(number):
     new_number = number.split(' ')
     CONTACT_LIST[new_number[1]] = new_number[2]
-    return CONTACT_LIST
+    return f'You change contact of {new_number[1]}'
 
 @input_error
 def show_phone(name):
     new_name = name.split(' ')
     number = CONTACT_LIST.get(new_name[1])
-    print(number)
+    return number
 
 
 def show_all(list_new):
-    print(CONTACT_LIST)
+    return CONTACT_LIST
 
 
 def finish(end):
-    print('Good bye!')
-    exit()
+    exit()  
 
 dict_command = {'hello': greeting,
     'add': add_contacts,
@@ -64,10 +64,12 @@ dict_command = {'hello': greeting,
 виділення з рядка ключових слів та модифікаторів команд.
 """
 def parser_command(command: str)->str:
+
     for key, action in dict_command.items():
-        if command.find(key) >= 0:
+        new_command = command.casefold()
+        if new_command.find(key) >= 0:
             return action(command)
-    print("You input wrong command! Try again")
+    return 'You input wrong command! Please, try again'
 
 
 """
@@ -77,8 +79,10 @@ def parser_command(command: str)->str:
 def main():
     while True:
         action = input("Please, input your command...") 
-        new_action = action.casefold()
-        parser_command(new_action)
+        if 'exit' or 'good bye' or 'close':
+            print ('Good bye!')
+        result = parser_command(action)
+        print(result)
 
 
 if __name__ == '__main__':
